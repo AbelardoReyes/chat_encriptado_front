@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <form class="chat-form" [formGroup]="form">
+    <mat-form-field class="chat-input" appearance="fill">
+      <mat-label>Message</mat-label>
+      <input matInput placeholder="Type your message" value="" formControlName="message">
+    </mat-form-field>
+    <button mat-button class="send-button" (click)="sendMessage()">Send</button>
+  </form>
+  <div *ngFor="let m of messages" class="message-container">
+
+    <p *ngIf="m.socket_id==socketIdPropio" class="my-message">Me({{m.socket_id}}): {{m.message}}</p>
+    <p *ngIf="m.socket_id!=socketIdPropio" class="other-message">Other({{m.socket_id}}): {{m.message}}</p>
+  </div>
+</mat-dialog-content>
+
