@@ -1,1 +1,17 @@
-<p>chat-socket works!</p>
+<mat-dialog-content class="chat-container">
+  <div class="message-list">
+    <div class="message-container" *ngFor="let m of messages">
+      <p *ngIf="m.socket_id==socketIdPropio" class="my-message">Me: {{m.message}}</p>
+      <p *ngIf="m.socket_id!=socketIdPropio" class="other-message">Other: {{m.message}}</p>
+    </div>
+  </div>
+  <form class="chat-form" [formGroup]="form" >
+    <mat-form-field class="chat-input" appearance="fill">
+      <input matInput class="custom-input " placeholder="Type your message" value="" formControlName="message" >
+    </mat-form-field>
+    <button  mat-button class="send-button" style="background-color:cornflowerblue;" (click)="sendMessage()" #messageForm >Send</button>
+    <div #scrollToBottom></div>
+
+  </form >
+</mat-dialog-content>
+

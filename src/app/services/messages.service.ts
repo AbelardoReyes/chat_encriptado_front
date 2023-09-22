@@ -17,6 +17,7 @@ export class MessagesService {
     return this.http.get(`${this.API_URL}/${this.route}/all`);
   }
   storeMessage(message: any): Observable<any> {
+    console.log("msg",message);
     return this.http.post(`${this.API_URL}/${this.route}`, message);
   }
   updateMessage(message: any): Observable<any> {
