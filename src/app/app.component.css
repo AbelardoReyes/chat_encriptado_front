@@ -1,28 +1,17 @@
-/* chat-window.component.css */
+/* Estilos CSS personalizados para el chat */
+
+/* Estilo para el contenedor principal del chat */
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ajusta la altura según tus necesidades */
+  height: 100vh;
+  position: relative; /* Agregamos posición relativa al contenedor principal */
+  background-image: url('../assets/fondo.jpg'); /* Ruta de la imagen de fondo */
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
+  background-position: center; /* Centra la imagen de fondo */
+  overflow: hidden;
 }
-
-.message-list {
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-.input-container {
-  display: flex;
-}
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-/* Estilos CSS personalizados para el chat */
 
 /* Estilo para el formulario */
 .chat-form {
@@ -31,21 +20,23 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  width: 99%;
 }
 
 /* Estilo para el campo de entrada de chat */
 .chat-input {
   flex-grow: 1;
   margin-right: 10px;
+
 }
 
-/* Estilo para el botón de enviar */
-.send-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Estilo para la lista de mensajes */
+.message-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse; /* Invierte el orden de los elementos */
+  padding: 20px;
 }
 
 /* Estilo para los contenedores de mensajes */
@@ -57,7 +48,7 @@
 .my-message {
   background-color: #007bff;
   color: #fff;
-  padding: 5px;
+  padding: 10px;
   border-radius: 5px;
   width: fit-content;
   margin-left: auto;
@@ -65,9 +56,28 @@
 
 /* Estilo para los mensajes del destinatario */
 .other-message {
-  background-color: #706a6a;
-  color: #ffffff;
-  padding: 5px;
+  background-color: #d8d7d7;
+  color: #201e1e;
+  padding: 10px;
   border-radius: 5px;
   width: fit-content;
+}
+
+.custom-input {
+  width: 97%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background-color: #fff;
+}
+
+.custom-input::placeholder {
+  color: #999;
+}
+
+.custom-input:focus {
+  border-color: #007bff;
 }
