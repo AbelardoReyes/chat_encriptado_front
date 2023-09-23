@@ -35,7 +35,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { LoginComponent } from './components/auth/login/login.component';
 import { UserComponent } from './components/sections/home/user/user.component';
@@ -84,6 +84,7 @@ import { ChatSocketComponent } from './components/sections/chat/chat-socket/chat
     MatGridListModule,
     MatProgressSpinnerModule,
     DragDropModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

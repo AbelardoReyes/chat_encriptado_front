@@ -1,56 +1,27 @@
-<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#" *ngIf="user">Bienvenido! {{user.name}}
-      {{user.last_name}}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search"
-          aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-<div class="container">
+<mat-toolbar color="primary">
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+  <span *ngIf="user">Bienvenido! {{user.name}} {{user.last_name}}</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="cont">
   <div class="row">
     <div class="col">
       <div class="perfil-container" style="margin-top: 10%;">
         <img src="./../../../../../assets/Fdv2HgyXEAIAXna.jpg"
           alt="Imagen de perfil">
       </div>
-      <p style="padding-top: 3%;font-size:20px;">Nombre: {{user.name}} {{user.last_name}}</p>
-      <p style="font-size:20px;">UserName: {{user.username}}</p>
-      <p style="font-size:20px;">Email: {{user.email}}</p>
-      <button class="btn btn-primary" (click)="updateUser()">Modificar Usuario</button>
+      <div style="margin-left: 5%;">
+        <p *ngIf="user" style="padding-top: 3%;font-size:20px;">Nombre: {{user.name}}
+          {{user.last_name}}</p>
+        <p *ngIf="user" style="font-size:20px;">UserName: {{user.username}}</p>
+        <p *ngIf="user" style="font-size:20px;">Email: {{user.email}}</p>
+        <button class="btn btn-primary" (click)="updateUser()">Modificar Usuario</button></div>
     </div>
     <div class="col">
       <app-chat-socket></app-chat-socket>

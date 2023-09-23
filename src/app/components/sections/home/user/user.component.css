@@ -5,7 +5,8 @@ img {
 }
 
 /* Estilo del contenedor de la imagen de perfil */
-.perfil-container {;
+.perfil-container {
+  margin-left: 5%;
   width: 150px; /* Ancho deseado del contenedor */
   height: 150px; /* Altura deseada del contenedor */
   border-radius: 50%; /* Hacer que el contenedor sea circular */
@@ -19,4 +20,12 @@ img {
   width: 100%; /* Ajustar la imagen al contenedor */
   height: 100%; /* Ajustar la imagen al contenedor */
   object-fit: cover; /* Escalar y recortar la imagen para que se ajuste al contenedor circular */
+}
+
+.cont {
+  width: 98%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
 }

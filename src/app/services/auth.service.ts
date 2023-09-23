@@ -20,21 +20,20 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/${this.route}/register`, credentials);
   }
   logout(): Observable<any> {
-    return this.http.get(`${this.API_URL}/${this.route}/logout`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: headers };
+    console.log("logout", options);
+    return this.http.get(`${this.API_URL}/${this.route}/logout`, options);
   }
   me(): Observable<any> {
-    // Obtén el token de autenticación desde donde lo tengas (por ejemplo, un servicio de autenticación)
-    const token = localStorage.getItem('token'); // Reemplaza esto con tu token de autenticación
-
-    // Crea un objeto HttpHeaders y agrega el token como un encabezado personalizado
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}` // Aquí asumimos que estás usando un token tipo Bearer
+      'Authorization': `Bearer ${token}`
     });
-
-    // Configura la solicitud HTTP con las cabeceras personalizadas
     const options = { headers: headers };
-
-    // Realiza la solicitud HTTP con las cabeceras configuradas
     return this.http.get(`${this.API_URL}/${this.route}/me`, options);
   }
 }
