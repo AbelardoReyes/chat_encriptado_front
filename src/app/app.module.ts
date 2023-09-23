@@ -40,12 +40,14 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { LoginComponent } from './components/auth/login/login.component';
 import { UserComponent } from './components/sections/home/user/user.component';
 import { ChatSocketComponent } from './components/sections/chat/chat-socket/chat-socket.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     UserComponent,
-    ChatSocketComponent
+    ChatSocketComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

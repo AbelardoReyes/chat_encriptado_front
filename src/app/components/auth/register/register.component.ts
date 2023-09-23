@@ -4,16 +4,23 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AlertServiceService } from 'src/app/services/utilities/alert-service.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RegisterComponent } from '../register/register.component';
+import { IUser } from 'src/app/interfaces/user.inteface';
+import { on } from 'events';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   form: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService, private alertService: AlertServiceService, private router: Router,public dialog: MatDialog) {
+  user: IUser[] = [];
+  constructor(public dialogRef: MatDialogRef<RegisterComponent>,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private alertService: AlertServiceService,
+
+  ) {
     this.form = this.createForm();
   }
 
@@ -22,6 +29,9 @@ export class LoginComponent implements OnInit {
 
   createForm(): FormGroup {
     return this.form = this.fb.group({
+      username: ['', Validators.required],
+      name: ['', Validators.required],
+      last_name: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -29,12 +39,10 @@ export class LoginComponent implements OnInit {
 
   save() {
     console.log(this.form.value);
-    this.authService.login(this.form.value).subscribe(
+    this.authService.register(this.form.value).subscribe(
       (res) => {
-        this.alertService.success('Success', 'Logueado correctamente')
-        localStorage.setItem('token', res.token.token);
-        console.log(res);
-        this.router.navigate(['/home']);
+        this.alertService.success('Success', 'Registrado correctamente')
+        this.onNoClick();
       },
       (err) => {
         this.alertService.error('Error', 'Datos incorrectos');
@@ -42,9 +50,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  register() {
-    const dialogRef = this.dialog.open(RegisterComponent, {
-      width: '50%',
-    });
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
