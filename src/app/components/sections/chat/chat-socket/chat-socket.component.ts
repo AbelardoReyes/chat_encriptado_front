@@ -32,7 +32,7 @@ export class ChatSocketComponent implements OnInit {
     this.socket.on('connect', () => {
       //console.log('Conectado al servidor');
       this.socketIdPropio = this.socket.id;
-      console.log("Id propio", this.socketIdPropio);
+      //console.log("Id propio", this.socketIdPropio);
     });
 
     this.socket.on('getAllMessages', (data: any) => {
@@ -52,12 +52,12 @@ export class ChatSocketComponent implements OnInit {
   sendMessage() {
     console.log("User", this.user);
     //console.log(this.form.value);
-    this.form.value.socket_id = this.socketIdPropio;
+    this.form.value.socket_id = this.user.username;
     this.form.value.user_id = this.user.id;
-    console.log(this.form.value);
+    console.log("Los datos que se enviaran son: ",this.form.value);
     this.messagesService.storeMessage(this.form.value).subscribe(
       (res) => {
-        console.log("msg",res);
+        //console.log("msg",res);
         this.getMessages();
       }
     );
@@ -72,8 +72,6 @@ export class ChatSocketComponent implements OnInit {
     this.messagesService.getMessages().subscribe(
       (res) => {
         this.messages = res;
-;
-
         console.log("Mensajes", this.messages);
       }
     );
@@ -86,9 +84,16 @@ export class ChatSocketComponent implements OnInit {
     this.authService.me().subscribe(
       (res) => {
         this.user = res;
-        console.log("Usuario", this.user);
+        //console.log("Usuario", this.user);
       }
     );
+  }
+  handleInput(event: any) {
+    const inputValue = event.target.value;
+    if (inputValue.length === 30) {
+      event.target.value += '\n';
+      this.form.get('message')?.setValue(event.target.value);
+    }
   }
 }
 
