@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/services/messages.service';
 import { AuthService } from 'src/app/services/auth.service';
+import * as CryptoJS from 'crypto-js';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ChatSocketComponent implements OnInit {
   socketIdDestino: any;
   user: any;
 
-  constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService, ) {
     this.form = this.createForm();
   }
   ngOnInit() {
