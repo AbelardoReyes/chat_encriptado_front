@@ -1,7 +1,11 @@
 <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#" *ngIf="user">Bienvenido! {{user.name}}
+      {{user.last_name}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -13,7 +17,8 @@
           <a class="nav-link" href="#">Link</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown
           </a>
           <ul class="dropdown-menu">
@@ -28,17 +33,27 @@
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search" placeholder="Search"
+          aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
   </div>
 </nav>
 <div class="container">
-
   <div class="row">
     <div class="col">
+      <div class="perfil-container" style="margin-top: 10%;">
+        <img src="./../../../../../assets/Fdv2HgyXEAIAXna.jpg"
+          alt="Imagen de perfil">
+      </div>
+      <p style="padding-top: 3%;font-size:20px;">Nombre: {{user.name}} {{user.last_name}}</p>
+      <p style="font-size:20px;">UserName: {{user.username}}</p>
+      <p style="font-size:20px;">Email: {{user.email}}</p>
+      <button class="btn btn-primary" (click)="updateUser()">Modificar Usuario</button>
     </div>
-    <div class="col"><app-chat-socket></app-chat-socket></div>
+    <div class="col">
+      <app-chat-socket></app-chat-socket>
+    </div>
   </div>
 </div>

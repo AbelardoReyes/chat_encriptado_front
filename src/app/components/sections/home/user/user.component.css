@@ -1,0 +1,22 @@
+/* Resetear márgenes y rellenos por defecto del cuerpo y la imagen */
+img {
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilo del contenedor de la imagen de perfil */
+.perfil-container {;
+  width: 150px; /* Ancho deseado del contenedor */
+  height: 150px; /* Altura deseada del contenedor */
+  border-radius: 50%; /* Hacer que el contenedor sea circular */
+  overflow: hidden; /* Ocultar cualquier contenido que se desborde del círculo */
+  border: 2px solid #fff; /* Borde blanco opcional */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+}
+
+/* Estilo de la imagen de perfil */
+.perfil-container img {
+  width: 100%; /* Ajustar la imagen al contenedor */
+  height: 100%; /* Ajustar la imagen al contenedor */
+  object-fit: cover; /* Escalar y recortar la imagen para que se ajuste al contenedor circular */
+}
