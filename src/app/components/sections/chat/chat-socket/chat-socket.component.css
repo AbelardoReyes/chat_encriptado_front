@@ -12,7 +12,8 @@
   overflow-y: auto;
   padding: 20px;
   display: flex;
-  flex-direction: column-reverse; /* Invierte el orden de los elementos */
+  flex-direction: column-reverse;
+  /* Invierte el orden de los elementos */
 }
 
 /* Estilo para el formulario */
@@ -21,8 +22,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px; /* Cambia margin-bottom a margin-top para que el formulario esté en la parte superior */
-  width: 100%; /* Cambia 99% a 100% para que el formulario ocupe todo el ancho */
+  margin-top: 10px;
+  /* Cambia margin-bottom a margin-top para que el formulario esté en la parte superior */
+  width: 100%;
+  /* Cambia 99% a 100% para que el formulario ocupe todo el ancho */
 }
 
 /* Estilo para el campo de entrada de chat */
@@ -30,6 +33,7 @@
   flex-grow: 1;
   margin-right: 10px;
 }
+
 /* Estilo para los mensajes del remitente */
 .my-message {
   background-color: #007bff;
@@ -47,4 +51,21 @@
   padding: 10px;
   border-radius: 5px;
   width: fit-content;
+}
+
+.send-button {
+  width: 100px;
+  height: 40px;
+  background-color: cornflowerblue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 0%;
+}
+
+.img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
 }
