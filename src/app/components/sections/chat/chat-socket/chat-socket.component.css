@@ -9,10 +9,10 @@
 /* Estilo para la lista de mensajes */
 .message-list {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: scroll; /* Cambiamos 'auto' a 'scroll' para forzar la barra de desplazamiento siempre visible */
   padding: 20px;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   /* Invierte el orden de los elementos */
 }
 

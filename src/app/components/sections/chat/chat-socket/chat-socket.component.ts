@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { io } from 'socket.io-client';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,9 +12,9 @@ import * as CryptoJS from 'crypto-js';
   templateUrl: './chat-socket.component.html',
   styleUrls: ['./chat-socket.component.css']
 })
-export class ChatSocketComponent implements OnInit {
+export class ChatSocketComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollToBottom') scrollToBottom: ElementRef | undefined;
-  nickname:any;
+  nickname: any;
   title = 'chat_front';
   private socket: any;
   form: FormGroup;
@@ -23,22 +23,30 @@ export class ChatSocketComponent implements OnInit {
   socketIdDestino: any;
   user: any;
 
-  constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService, ) {
+  constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService,) {
     this.form = this.createForm();
   }
   ngOnInit() {
     this.getUser();
-    this.getMessages();
     this.socket = io(environment.SOCKET_URL);
     this.socket.on('connect', () => {
       //console.log('Conectado al servidor');
       this.socketIdPropio = this.socket.id;
       //console.log("Id propio", this.socketIdPropio);
     });
+    this.socket.emit('getAllMessages', true);
+    this.socket.on('allMessages', (data: any) => {
+      console.log('Mensajes recibidos del servidor: ', data);
+      this.messages = [...data];
+    });
 
-    this.socket.on('getAllMessages', (data: any) => {
-      //console.log('Mensaje recibido del servidor: 2', data);
-      this.messages = data;
+    this.socket.on('message', (data: any) => {
+      console.log('Mensaje recibido del servidor: 2', data);
+      this.messages.push(data);
+      console.log('Arreglo messages actualizado:', this.messages);
+      setTimeout(() => {
+        this.cd.detectChanges();
+      }, 0);
     });
     //this.enviarMensaje();
   }
@@ -51,36 +59,14 @@ export class ChatSocketComponent implements OnInit {
   }
 
   sendMessage() {
-    console.log("User", this.user);
+    //console.log("User", this.user);
     //console.log(this.form.value);
     this.form.value.socket_id = this.user.username;
     this.form.value.user_id = this.user.id;
-    console.log("Los datos que se enviaran son: ",this.form.value);
-    this.messagesService.storeMessage(this.form.value).subscribe(
-      (res) => {
-        //console.log("msg",res);
-        this.getMessages();
-      }
-    );
-    this.form.reset();
+    //console.log("Los datos que se enviaran son: ", this.form.value);
+    this.socket.emit('sendMessage', this.form.value);
   }
 
-  getMessages() {
-    //No tocar
-    if (this.messages.length > 0) {
-      this.messages = [];
-    }
-    this.messagesService.getMessages().subscribe(
-      (res) => {
-        this.messages = res;
-        console.log("Mensajes", this.messages);
-      }
-    );
-    if (this.scrollToBottom) {
-      // Desplazamiento hacia el elemento de referencia al final del formulario
-      this.scrollToBottom.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }
-  }
   getUser() {
     this.authService.me().subscribe(
       (res) => {
@@ -94,6 +80,12 @@ export class ChatSocketComponent implements OnInit {
     if (inputValue.length === 30) {
       event.target.value += '\n';
       this.form.get('message')?.setValue(event.target.value);
+    }
+  }
+  ngAfterViewChecked() {
+    console.log('ngAfterViewChecked called');
+    if (this.scrollToBottom && this.scrollToBottom.nativeElement) {
+      this.scrollToBottom.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
 }
