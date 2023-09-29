@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'http://192.168.1.74:3333/api/v1',
-  SOCKET_URL: 'http://192.168.1.74:3333',
+  API_URL: 'http://192.168.252.218:3333/api/v1',
+  SOCKET_URL: 'http://192.168.252.218:3333',
 };
 
 /*

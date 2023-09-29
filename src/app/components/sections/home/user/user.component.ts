@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
   }
 
   updateUser() {
-
+    this.alertService.error('Funcionalidad no disponible', 'Lo sentimos');
   }
 
   logout() {
