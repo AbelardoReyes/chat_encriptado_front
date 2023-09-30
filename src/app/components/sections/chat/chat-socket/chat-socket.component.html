@@ -1,5 +1,7 @@
 
 <mat-dialog-content class="chat-container">
+  <p>tu clave es: {{secretKey}}</p>
+  <p *ngIf="messages.length == 0">No hay mensajes</p>
   <div class="message-list">
     <div class="message-container" *ngFor="let m of messages">
       <p [class.my-message]="m.user_id == user.id" [class.other-message]="m.user_id != user.id">
@@ -8,7 +10,6 @@
     </div>
     <div #scrollToBottom></div>
   </div>
-
   <form class="chat-form" [formGroup]="form">
     <mat-form-field class="chat-input" appearance="fill">
       <input matInput type="text" class="custom-input "
