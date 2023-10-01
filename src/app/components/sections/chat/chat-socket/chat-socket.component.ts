@@ -23,11 +23,13 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
   socketIdPropio: any;
   socketIdDestino: any;
   user: any;
+  tokenExiste: any;
 
   constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService,) {
     this.form = this.createForm();
   }
   ngOnInit() {
+    this.tokenExiste = localStorage.getItem('token');
     this.getUser();
     this.socket = io(environment.SOCKET_URL);
     this.socket.on('connect', () => {
@@ -38,16 +40,24 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
 
     this.socket.emit('getAllMessages', true);
     this.socket.on('allMessages', (data: any) => {
+      if (this.tokenExiste) {
+        const mensajesDesencriptados = this.decryptAllMessage(data);
+        this.messages = [...mensajesDesencriptados];
+      } else {
+        this.messages = [...data];
+      }
       //console.log('Mensajes recibidos del servidor: ', data);
-      this.messages = [...data];
     });
 
     this.socket.on('message', (data: any) => {
       //console.log('Mensaje recibido del servidor: 2', data);
       // Desencriptar el mensaje antes de mostrarlo
-      const mensajeDesencriptado = this.decryptMessage(data);
-      this.messages.push(mensajeDesencriptado);
-
+      if (this.tokenExiste) {
+        const mensajeDesencriptado = this.decryptMessage(data);
+        this.messages.push(mensajeDesencriptado);
+      } else {
+        this.messages.push(data);
+      }
       console.log('Arreglo messages actualizado:', this.messages);
       setTimeout(() => {
         this.cd.detectChanges();
@@ -88,13 +98,25 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
 
   // Función para descifrar un mensaje
   decryptMessage(ciphertext: any): string {
-    const crypto =  ciphertext.message;
+    const crypto = ciphertext.message;
     console.log('Mensaje cifrado: ', crypto);
     const bytes = CryptoJS.AES.decrypt(crypto, this.secretKey);
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     ciphertext.message = originalText;
     return ciphertext;
   }
+  // Función para descifrar todos los mensajes
+  decryptAllMessage(ciphertext: any): string {
+    console.log('Mensaje sin cifrar: ', ciphertext);
+    for (let i = 0; i < ciphertext.length; i++) {
+      const crypto = ciphertext[i].message;
+      const bytes = CryptoJS.AES.decrypt(crypto, this.secretKey);
+      const originalText = bytes.toString(CryptoJS.enc.Utf8);
+      ciphertext[i].message = originalText;
+    }
+    return ciphertext;
+  }
+
 
   ngAfterViewChecked() {
     if (this.scrollToBottom && this.scrollToBottom.nativeElement) {
