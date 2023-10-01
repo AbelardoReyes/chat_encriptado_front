@@ -4,7 +4,8 @@
   </button> -->
   <span *ngIf="user">Bienvenido! {{user.name}} {{user.last_name}}</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="logout()">
+  <button mat-icon-button class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon" (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
@@ -17,11 +18,20 @@
           alt="Imagen de perfil">
       </div>
       <div style="margin-left: 5%;">
-        <p *ngIf="user" style="padding-top: 3%;font-size:20px;">Nombre: {{user.name}}
+        <p *ngIf="user" style="padding-top: 3%;font-size:20px;">Nombre:
+          {{user.name}}
           {{user.last_name}}</p>
         <p *ngIf="user" style="font-size:20px;">UserName: {{user.username}}</p>
         <p *ngIf="user" style="font-size:20px;">Email: {{user.email}}</p>
+        <p style="font-size:20px; font-style:oblique;">Llave para unirte: {{secretKeyPadre}}</p>
         <button class="btn btn-primary" (click)="updateUser()">Modificar Usuario</button></div>
+        <form style="width: 40%; margin-left: 5%;" [formGroup]="form">
+          <div class="mb-3">
+            <label class="form-label">Ingresa la llave!</label>
+            <input type="text" class="form-control" formControlName="secretKey" placeholder="Key Secret">
+          </div>
+          <button class="btn btn-secondary" (click)="sendKey()" [disabled]="isButtonDisabled">Aceptar</button>
+        </form>
     </div>
     <div class="col">
       <app-chat-socket></app-chat-socket>

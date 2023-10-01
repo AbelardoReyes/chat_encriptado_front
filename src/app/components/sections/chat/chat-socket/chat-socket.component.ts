@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, AfterViewChecked, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { io } from 'socket.io-client';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/services/messages.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { SendKeyService } from 'src/app/services/send-key.service';
 import * as CryptoJS from 'crypto-js';
 
 
@@ -13,7 +14,7 @@ import * as CryptoJS from 'crypto-js';
   styleUrls: ['./chat-socket.component.css']
 })
 export class ChatSocketComponent implements OnInit, AfterViewChecked {
-  secretKey = 'clave'; // Reemplaza con tu clave compartida
+  secretKey = ""
   @ViewChild('scrollToBottom') scrollToBottom: ElementRef | undefined;
   nickname: any;
   title = 'chat_front';
@@ -24,46 +25,51 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
   socketIdDestino: any;
   user: any;
   tokenExiste: any;
+  cantidadMensajes: number = 0;
 
-  constructor(private fb: FormBuilder, private messagesService: MessagesService, private cd: ChangeDetectorRef, private authService: AuthService,) {
+  constructor(private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private authService: AuthService,
+    private sendKeyService: SendKeyService,) {
     this.form = this.createForm();
   }
   ngOnInit() {
+    this.sendKeyService.secretKeyPadre$.subscribe(secretKey => {
+      this.secretKey = secretKey;
+      this.messages = this.decryptAllMessage(this.messages);
+    });
     this.tokenExiste = localStorage.getItem('token');
     this.getUser();
     this.socket = io(environment.SOCKET_URL);
     this.socket.on('connect', () => {
-      //console.log('Conectado al servidor');
       this.socketIdPropio = this.socket.id;
       //console.log("Id propio", this.socketIdPropio);
     });
 
     this.socket.emit('getAllMessages', true);
     this.socket.on('allMessages', (data: any) => {
-      if (this.tokenExiste) {
-        const mensajesDesencriptados = this.decryptAllMessage(data);
-        this.messages = [...mensajesDesencriptados];
+      console.log('Todos los mensajes: ', data);
+      if (this.secretKey != "") {
+        this.messages = this.decryptAllMessage(data);
       } else {
         this.messages = [...data];
       }
-      //console.log('Mensajes recibidos del servidor: ', data);
+      this.cantidadMensajes = this.messages.length;
     });
 
     this.socket.on('message', (data: any) => {
-      //console.log('Mensaje recibido del servidor: 2', data);
-      // Desencriptar el mensaje antes de mostrarlo
-      if (this.tokenExiste) {
+      if (this.secretKey != "") {
         const mensajeDesencriptado = this.decryptMessage(data);
         this.messages.push(mensajeDesencriptado);
       } else {
         this.messages.push(data);
       }
+      this.cantidadMensajes = this.messages.length;
       console.log('Arreglo messages actualizado:', this.messages);
       setTimeout(() => {
         this.cd.detectChanges();
       }, 0);
     });
-    //this.enviarMensaje();
   }
 
 
@@ -106,15 +112,19 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
     return ciphertext;
   }
   // Función para descifrar todos los mensajes
-  decryptAllMessage(ciphertext: any): string {
-    console.log('Mensaje sin cifrar: ', ciphertext);
-    for (let i = 0; i < ciphertext.length; i++) {
-      const crypto = ciphertext[i].message;
+  decryptAllMessage(ciphertextArray: any[]): any[] {
+    console.log('Mensajes sin cifrar: ', ciphertextArray);
+    const mensajesDesencriptados = [];
+
+    for (let i = 0; i < ciphertextArray.length; i++) {
+      const crypto = ciphertextArray[i].message;
       const bytes = CryptoJS.AES.decrypt(crypto, this.secretKey);
       const originalText = bytes.toString(CryptoJS.enc.Utf8);
-      ciphertext[i].message = originalText;
+      ciphertextArray[i].message = originalText;
+      mensajesDesencriptados.push(ciphertextArray[i]); // Agrega el mensaje desencriptado al array resultante
     }
-    return ciphertext;
+
+    return mensajesDesencriptados;
   }
 
 
@@ -123,7 +133,6 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
       this.scrollToBottom.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
-
 
 }
 

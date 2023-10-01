@@ -29,3 +29,8 @@ img {
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.5; /* Cambia la opacidad para hacer que el botón parezca deshabilitado */
+}
