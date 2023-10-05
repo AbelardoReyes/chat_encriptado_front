@@ -1,7 +1,7 @@
 
-<mat-dialog-content class="chat-container">
+<mat-dialog-content class="chat-container" style="background-color: #cccccc;">
   <!--<p>La llave del chat es: {{secretKey}}</p>-->
-  <p *ngIf="messages.length > 0">Hay {{cantidadMensajes}} Mensajes</p>
+  <p *ngIf="messages.length > 0" >Hay {{cantidadMensajes}} Mensajes</p>
   <p *ngIf="messages.length == 0">No hay mensajes</p>
   <div class="message-list">
     <div class="message-container" *ngFor="let m of messages">
@@ -9,12 +9,12 @@
         [class.other-message]="m.user_id != user.id">
         {{ m.user_id == user.id ? user.username : m.socket_id }}: {{ m.message}}
         <br>
-        <span class="message-date">{{ m.created_at | date:'short' }}</span>
+        <span style="font-size: 80%; color: gray;" class="message-date">{{ m.created_at | date:'short' }}</span>
       </p>
     </div>
     <div #scrollToBottom></div>
   </div>
-  <form class="chat-form" [formGroup]="form" *ngIf="secretKey">
+  <form class="chat-form" [formGroup]="form" *ngIf="secretKey" >
     <mat-form-field class="chat-input" appearance="fill">
       <input matInput type="text" class="custom-input" id="matInput"
         placeholder="Type your message" value formControlName="message"

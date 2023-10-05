@@ -36,7 +36,7 @@
 
 /* Estilo para los mensajes del remitente */
 .my-message {
-  background-color: #007bff;
+  background-color: #005c4b;
   color: #fff;
   padding: 10px;
   border-radius: 5px;
@@ -46,8 +46,8 @@
 
 /* Estilo para los mensajes del destinatario */
 .other-message {
-  background-color: #d8d7d7;
-  color: #201e1e;
+  background-color: #202c33;
+  color: #fff;
   padding: 10px;
   border-radius: 5px;
   width: fit-content;
