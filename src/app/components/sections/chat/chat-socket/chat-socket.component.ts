@@ -49,11 +49,13 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
     this.socket.emit('getAllMessages', true);
     this.socket.on('allMessages', (data: any) => {
       console.log('Todos los mensajes: ', data);
+      console.log(data);
       if (this.secretKey != "") {
         this.messages = this.decryptAllMessage(data);
       } else {
         this.messages = [...data];
       }
+      this.messages.sort((a, b) => a.id - b.id);
       this.cantidadMensajes = this.messages.length;
     });
 
@@ -123,7 +125,6 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
       ciphertextArray[i].message = originalText;
       mensajesDesencriptados.push(ciphertextArray[i]); // Agrega el mensaje desencriptado al array resultante
     }
-
     return mensajesDesencriptados;
   }
 

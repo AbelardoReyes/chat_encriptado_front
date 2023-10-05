@@ -23,7 +23,7 @@
           {{user.last_name}}</p>
         <p *ngIf="user" style="font-size:20px;">UserName: {{user.username}}</p>
         <p *ngIf="user" style="font-size:20px;">Email: {{user.email}}</p>
-        <p style="font-size:20px; font-style:oblique;">Llave para unirte: {{secretKeyPadre}}</p>
+        <p style="font-size:20px; font-style:oblique;">Llave para unirte: <b>{{secretKeyPadre}}</b></p>
         <button class="btn btn-primary" (click)="updateUser()">Modificar Usuario</button></div>
         <form style="width: 40%; margin-left: 5%;" [formGroup]="form">
           <div class="mb-3">
