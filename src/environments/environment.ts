@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'http://localhost:3333/api/v1',
-  SOCKET_URL: 'http://localhost:3333',
+  API_URL: 'http://192.168.253.31:3333/api/v1',
+  SOCKET_URL: 'http://192.168.253.31:3333',
 };
 
 /*

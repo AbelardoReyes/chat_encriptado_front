@@ -60,6 +60,7 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
     });
 
     this.socket.on('message', (data: any) => {
+    this.playSound();
       if (this.secretKey != "") {
         const mensajeDesencriptado = this.decryptMessage(data);
         this.messages.push(mensajeDesencriptado);
@@ -135,5 +136,12 @@ export class ChatSocketComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  playSound() {
+    const audio = new Audio('assets/sounds/sonido.mp3');
+    audio.play();
+    setTimeout(() => {
+      audio.pause();
+    }, 3000);
+  }
 }
 
